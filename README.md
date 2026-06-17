@@ -1,1 +1,1 @@
-# SalesOrderCRUD
+# manufacturing-erp-dotnet-core-crud

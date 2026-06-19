@@ -1,12 +1,28 @@
-name: Hello CI
+name: .NET CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ] 
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
-  hello:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Say Hello
-        run: echo "Hello, my first CI is working!"
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore WebApplicationCore616.slnx
+
+    - name: Build
+      run: dotnet build WebApplicationCore616.slnx --no-restore --configuration Release
+
+    - name: Test
+      run: dotnet test WebApplicationCore616.slnx --no-build --verbosity normal
